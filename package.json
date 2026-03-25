@@ -1,0 +1,29 @@
+{
+  "name": "jjjjjungk7-academy-reading-tracker",
+  "version": "1.0.0",
+  "description": "jjjjjungk7/academy-reading-tracker",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest --testPathPatterns=tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjjjjungk7/jjjjjungk7-academy-reading-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jjjjjungk7/jjjjjungk7-academy-reading-tracker/issues"
+  },
+  "homepage": "https://github.com/jjjjjungk7/jjjjjungk7-academy-reading-tracker#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
+  }
+}

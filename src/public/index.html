@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academy Reading Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>📚 Academy Reading Tracker</h1>
+  </header>
+
+  <main>
+    <!-- Stats -->
+    <section class="stats" id="stats">
+      <div class="stat-card" id="stat-total">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Total Books</span>
+      </div>
+      <div class="stat-card" id="stat-completed">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Completed</span>
+      </div>
+      <div class="stat-card" id="stat-reading">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Reading</span>
+      </div>
+      <div class="stat-card" id="stat-toread">
+        <span class="stat-number">0</span>
+        <span class="stat-label">To Read</span>
+      </div>
+      <div class="stat-card" id="stat-pages">
+        <span class="stat-number">0</span>
+        <span class="stat-label">Pages Read</span>
+      </div>
+    </section>
+
+    <!-- Add Book Button -->
+    <div class="toolbar">
+      <div class="filter-group">
+        <label for="filter-status">Filter:</label>
+        <select id="filter-status">
+          <option value="all">All</option>
+          <option value="to-read">To Read</option>
+          <option value="reading">Reading</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="btn-add">+ Add Book</button>
+    </div>
+
+    <!-- Book List -->
+    <section class="book-list" id="book-list">
+      <p class="empty-msg" id="empty-msg">No books yet. Add your first book!</p>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+      <h2 id="modal-title">Add Book</h2>
+      <form id="book-form" novalidate>
+        <input type="hidden" id="book-id" />
+        <div class="form-group">
+          <label for="f-title">Title <span class="required">*</span></label>
+          <input type="text" id="f-title" placeholder="Book title" required />
+        </div>
+        <div class="form-group">
+          <label for="f-author">Author <span class="required">*</span></label>
+          <input type="text" id="f-author" placeholder="Author name" required />
+        </div>
+        <div class="form-group">
+          <label for="f-genre">Genre</label>
+          <input type="text" id="f-genre" placeholder="e.g. Fiction, Science" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-total-pages">Total Pages</label>
+            <input type="number" id="f-total-pages" min="0" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="f-pages-read">Pages Read</label>
+            <input type="number" id="f-pages-read" min="0" placeholder="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="f-status">Status</label>
+          <select id="f-status">
+            <option value="to-read">To Read</option>
+            <option value="reading">Reading</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="f-notes">Notes</label>
+          <textarea id="f-notes" rows="3" placeholder="Optional notes..."></textarea>
+        </div>
+        <p class="form-error" id="form-error"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-save">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
