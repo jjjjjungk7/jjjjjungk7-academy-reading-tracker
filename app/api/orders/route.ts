@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { createServerClient } from '@/lib/supabase/server';
 import { isAuthenticated } from '@/lib/auth';
+
+const createOrderSchema = z.object({
+  student_id: z.string().uuid(),
+  book_id: z.string().uuid(),
+  reading_record_id: z.string().uuid().nullish(),
+  needed_by_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  status: z.enum(['needed', 'ordered', 'received', 'canceled']).optional(),
+  note: z.string().nullish(),
+});
 
 export async function GET(request: NextRequest) {
   if (!(await isAuthenticated())) {
@@ -45,11 +55,11 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { student_id, book_id, reading_record_id, needed_by_date, status, note } = body;
-
-  if (!student_id || !book_id || !needed_by_date) {
-    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+  const parsed = createOrderSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
   }
+  const { student_id, book_id, reading_record_id, needed_by_date, status, note } = parsed.data;
 
   const supabase = createServerClient();
   const { data, error } = await supabase
@@ -57,10 +67,10 @@ export async function POST(request: NextRequest) {
     .insert({
       student_id,
       book_id,
-      reading_record_id: reading_record_id || null,
+      reading_record_id: reading_record_id ?? null,
       needed_by_date,
       status: status ?? 'needed',
-      note: note || null,
+      note: note ?? null,
     })
     .select()
     .single();

@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { createServerClient } from '@/lib/supabase/server';
 import { isAuthenticated } from '@/lib/auth';
 
-interface BatchStudentInput {
-  student_id: string;
-  expected_end_date: string;
-}
+const batchStudentSchema = z.object({
+  student_id: z.string().uuid(),
+  expected_end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+});
+
+const createBatchSchema = z.object({
+  class_id: z.string().uuid(),
+  book_id: z.string().uuid(),
+  start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  students: z.array(batchStudentSchema).min(1, 'At least one student is required'),
+  note: z.string().nullish(),
+});
 
 export async function POST(request: NextRequest) {
   if (!(await isAuthenticated())) {
@@ -13,17 +22,11 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { class_id, book_id, start_date, students, note } = body as {
-    class_id: string;
-    book_id: string;
-    start_date: string;
-    students: BatchStudentInput[];
-    note?: string;
-  };
-
-  if (!class_id || !book_id || !start_date || !students || students.length === 0) {
-    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+  const parsed = createBatchSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
   }
+  const { class_id, book_id, start_date, students, note } = parsed.data;
 
   const supabase = createServerClient();
 
