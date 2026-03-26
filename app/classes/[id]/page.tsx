@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import OrderBanner from '@/components/OrderBanner';
 import { createServerClient } from '@/lib/supabase/server';
 import { getBannerItems } from '@/lib/banner';
-
+import { fetchGoogleReadingLogs, fetchGoogleStudents, groupLogsByStudentInClass } from '@/lib/googleSheetsCsv';
 export const dynamic = 'force-dynamic';
 
 export default async function ClassPage({ params }: { params: Promise<{ id: string }> }) {
