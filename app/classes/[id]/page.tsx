@@ -132,25 +132,17 @@ export default async function ClassPage({ params }: { params: Promise<{ id: stri
           </div>
         )}
 
-        {/* Students list */}
-        <div>
-          <h2 className="text-lg font-semibold text-gray-700 mb-3">👥 학생 목록</h2>
-          {!students || students.length === 0 ? (
-            <div className="text-gray-400 text-center py-8 bg-white rounded-xl border border-gray-200">
-              등록된 학생이 없습니다.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {students.map((student) => {
-                const alerts = bannerItems.filter((b) => b.student_id === student.id).length;
-                return (
-                  <Link
-                    key={student.id}
-                    href={`/students/${student.id}`}
-                    className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md hover:border-indigo-300 transition-all group flex items-center justify-between"
-                  >
-                    <span className="font-medium text-gray-800 group-hover:text-indigo-600">
-                      {student.name}
+{/* Students list */}
+<div>
+  <h2 ...>👥 학생 목록</h2>
+  {!students || students.length === 0 ? (
+    ...
+  ) : (
+    <div ...>
+      {students.map((student) => ( ... ))}
+    </div>
+  )}
+</div>
                     </span>
                     <div className="flex items-center gap-2">
                       {alerts > 0 && (
