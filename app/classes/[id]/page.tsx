@@ -16,10 +16,19 @@ export default async function ClassPage({ params }: { params: Promise<{ id: stri
     { data: students },
     bannerItems,
   ] = await Promise.all([
-    supabase.from('classes').select('*').eq('id', id).single(),
-    supabase.from('students').select('*').eq('class_id', id).eq('active', true).order('name'),
-    getBannerItems(id),
-  ]);
+   const [
+  { data: cls },
+  { data: students },
+  bannerItems,
+  googleStudents,
+  googleLogs,
+] = await Promise.all([
+  supabase.from('classes').select('*').eq('id', id).single(),
+  supabase.from('students').select('*').eq('class_id', id).eq('active', true).order('name'),
+  getBannerItems(id),
+  fetchGoogleStudents(),
+  fetchGoogleReadingLogs(),
+]);
 
   if (!cls) notFound();
 
